@@ -9,7 +9,7 @@ namespace webApi.Services
 {
     public class NoteService : INoteService
     {
-        /*
+        
         private WebNotepadDBContext _context;
         private readonly IMapper _mapper;
         public NoteService(WebNotepadDBContext context, IMapper mapper)
@@ -18,6 +18,35 @@ namespace webApi.Services
             _mapper = mapper;
         }
 
+        public CurrentNote GetNote(int id)
+        {
+            return _context.CurrentNotes.FirstOrDefault(note => note.Id == id);
+        }
+
+        public int CreateNote(CurrentNoteDBO note)
+        {
+            var newNote = _mapper.Map<CurrentNote>(new CurrentNoteDBO());
+            _context.CurrentNotes.Add(newNote);
+            _context.SaveChanges();
+            return newNote.Id = newNote.Id;
+        }
+
+        public bool DeleteNote(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int UpdateNote(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<CurrentNoteDBO> GetAllNotes()
+        {
+            throw new NotImplementedException();
+        }
+
+        /*
         public int CreateNote(NoteDBO noteDBO)
         {
             if(noteDBO.NoteId == null)

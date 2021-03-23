@@ -31,14 +31,16 @@ namespace webApi.Controllers
         [HttpGet]
         public ActionResult<CurrentNoteDBO> GetNote([FromQuery] int? id)
         {
-            /*
-            var note = _noteService.GetNote(id);
+            if(id == null)
+            {
+                return BadRequest();
+            }
+            var note = _noteService.GetNote(id.Value);
             if (note == null)
             {
                 return NotFound("Resource not Found");
             }
-            */
-            return Ok();
+            return Ok(note);
         }
 
         /// <summary>
@@ -51,14 +53,12 @@ namespace webApi.Controllers
         [HttpPost]
         public ActionResult CreateNote([FromBody] CurrentNoteDBO newNote)
         {
-            /*
             if (newNote == null)
             {
                 return BadRequest("Bad Request");
             }
-
             _noteService.CreateNote(newNote);
-            */
+
             return Ok();
         }
 
