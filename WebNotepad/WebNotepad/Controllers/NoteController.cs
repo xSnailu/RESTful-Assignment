@@ -85,7 +85,6 @@ namespace webApi.Controllers
         [HttpGet("all")]
         public ActionResult<IEnumerable<NoteDBO>> GetAllNotes()
         {
-
             return Ok(_noteService.GetAllNotes());
         }
 

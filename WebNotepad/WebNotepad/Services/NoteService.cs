@@ -81,8 +81,10 @@ namespace webApi.Services
 
         public IEnumerable<NoteDBO> GetAllNotes()
         {
-            var allNotes = _context.Notes.GroupBy(n => n.NoteId)
-                            .SelectMany(g => g.OrderByDescending(n => n.Version)).Take(1).ToList();
+            var allNotes = (from x in _context.Notes
+                           group x by x.NoteId into g
+                              select g.OrderByDescending(y => y.Version).FirstOrDefault()).ToList();
+
             allNotes.RemoveAll(note => !note.IsActive);
 
             List<NoteDBO> retList = new List<NoteDBO>();
