@@ -79,9 +79,29 @@ namespace webApi.Services
             } 
         }
 
+        public IEnumerable<NoteDBO> GetAllNotes()
+        {
+            var allNotes = _context.Notes.GroupBy(n => n.NoteId)
+                            .SelectMany(g => g.OrderByDescending(n => n.Version)).Take(1).ToList();
+            allNotes.RemoveAll(note => !note.IsActive);
+
+            List<NoteDBO> retList = new List<NoteDBO>();
+
+            // mapping whole list does not work
+            // <TODO> 
+            foreach(var note in allNotes)
+            {
+                retList.Add(_mapper.Map<NoteDBO>(note));
+            }
+
+            return retList;
+        }
+
         public int UpdateNote(int? id)
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

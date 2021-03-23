@@ -83,9 +83,10 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        public ActionResult<IEnumerable<Note>> GetAllDiscountCodes()
+        public ActionResult<IEnumerable<NoteDBO>> GetAllNotes()
         {
-            return Ok(null);
+
+            return Ok(_noteService.GetAllNotes());
         }
 
     }

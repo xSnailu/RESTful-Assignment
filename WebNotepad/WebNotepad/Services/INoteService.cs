@@ -9,5 +9,6 @@ namespace webApi.Services
         int CreateNote(NoteDBO note);
         bool DeleteNote(int? id);
         int UpdateNote(int? id);
+        public IEnumerable<NoteDBO> GetAllNotes();
     }
 }
