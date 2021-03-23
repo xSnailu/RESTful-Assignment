@@ -17,8 +17,8 @@ namespace WebNotepad.Models
         {
         }
 
-        public virtual DbSet<Note> Notes { get; set; }
-        public virtual DbSet<NoteKey> NoteKeys { get; set; }
+        public virtual DbSet<ArchiveNote> ArchiveNotes { get; set; }
+        public virtual DbSet<CurrentNote> CurrentNotes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,12 +33,12 @@ namespace WebNotepad.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<Note>(entity =>
+            modelBuilder.Entity<ArchiveNote>(entity =>
             {
                 entity.HasKey(e => e.Version)
-                    .HasName("PK__Note__79B5C94C046345B0");
+                    .HasName("PK__ArchiveN__79B5C94C582CF61A");
 
-                entity.ToTable("Note");
+                entity.ToTable("ArchiveNote");
 
                 entity.Property(e => e.Version).HasColumnName("version");
 
@@ -66,17 +66,40 @@ namespace WebNotepad.Models
                     .IsUnicode(false)
                     .HasColumnName("title");
 
-                entity.HasOne(d => d.NoteNavigation)
-                    .WithMany(p => p.Notes)
+                entity.HasOne(d => d.Note)
+                    .WithMany(p => p.ArchiveNotes)
                     .HasForeignKey(d => d.NoteId)
-                    .HasConstraintName("FK_NoteKey_Note");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CurrentNote_ArchiveNote");
             });
 
-            modelBuilder.Entity<NoteKey>(entity =>
+            modelBuilder.Entity<CurrentNote>(entity =>
             {
-                entity.ToTable("NoteKey");
+                entity.ToTable("CurrentNote");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Content)
+                    .IsRequired()
+                    .HasMaxLength(512)
+                    .IsUnicode(false)
+                    .HasColumnName("content");
+
+                entity.Property(e => e.Created)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created");
+
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
+
+                entity.Property(e => e.Modified)
+                    .HasColumnType("datetime")
+                    .HasColumnName("modified");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false)
+                    .HasColumnName("title");
             });
 
             OnModelCreatingPartial(modelBuilder);

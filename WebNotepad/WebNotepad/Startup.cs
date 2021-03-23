@@ -41,7 +41,7 @@ namespace WebNotepad
             // Dependency injection
             services.AddScoped<INoteService, NoteService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddDbContext<WebNotepadDBContext>(options => options.UseSqlServer(connection)); // database
+            //services.AddDbContext<WebNotepadDBContext>(options => options.UseSqlServer(connection)); // database
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

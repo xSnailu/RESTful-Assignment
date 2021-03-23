@@ -7,6 +7,7 @@ namespace webApi.Helpers
 {
     public class AutoMapperProfile : Profile
     {
+        /*
         public AutoMapperProfile()
         {
             CreateMap<NoteDBO, Note>() // example of mapping
@@ -21,8 +22,7 @@ namespace webApi.Helpers
                 .ReverseMap();
             CreateMap<List<NoteDBO>, List<Note>>() // example of mapping
                 .ReverseMap();
-
-
         }
+        */
     }
 }

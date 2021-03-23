@@ -13,6 +13,7 @@ namespace webApi.Controllers
     [Route("note")]
     public class NoteController : ControllerBase
     {
+        /*
         private readonly INoteService _noteService;
 
         public NoteController(INoteService noteService)
@@ -87,6 +88,6 @@ namespace webApi.Controllers
         {
             return Ok(_noteService.GetAllNotes());
         }
-
+        */
     }
 }

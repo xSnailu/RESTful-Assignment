@@ -9,6 +9,7 @@ namespace webApi.Services
 {
     public class NoteService : INoteService
     {
+        /*
         private WebNotepadDBContext _context;
         private readonly IMapper _mapper;
         public NoteService(WebNotepadDBContext context, IMapper mapper)
@@ -104,6 +105,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-
+        */
     }
+
 }

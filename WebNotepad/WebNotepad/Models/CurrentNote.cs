@@ -5,16 +5,20 @@ using System.Collections.Generic;
 
 namespace WebNotepad.Models
 {
-    public partial class Note
+    public partial class CurrentNote
     {
-        public int NoteId { get; set; }
+        public CurrentNote()
+        {
+            ArchiveNotes = new HashSet<ArchiveNote>();
+        }
+
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime? Created { get; set; }
         public DateTime? Modified { get; set; }
         public bool IsActive { get; set; }
-        public int Version { get; set; }
 
-        public virtual NoteKey NoteNavigation { get; set; }
+        public virtual ICollection<ArchiveNote> ArchiveNotes { get; set; }
     }
 }
