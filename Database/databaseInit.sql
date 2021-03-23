@@ -50,7 +50,7 @@ CREATE TABLE ArchiveNote (
 	is_active bit NOT NULL,
 	[version] int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
 
-	CONSTRAINT FK_CurrentNote_ArchiveNoteFOREIGN KEY
+	CONSTRAINT FK_CurrentNote_ArchiveNote FOREIGN KEY
 	(
 		note_id
 	) REFERENCES CurrentNote
