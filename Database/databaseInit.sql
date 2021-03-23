@@ -27,18 +27,21 @@ GO
 use "WebNotepadDB"
 GO
 
-drop table if exists Note
-drop table if exists NoteKey
+drop table if exists ActiveNote
+drop table if exists ArchiveNote
 
 GO
-
-CREATE TABLE NoteKey (
-	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY
+CREATE TABLE CurrentNote (
+	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+	title varchar(128) NOT NULL,
+	content varchar(512) NOT NULL,
+	created datetime,
+	modified datetime,
+	is_active bit NOT NULL,
 )
-
 GO
 
-CREATE TABLE Note (
+CREATE TABLE ArchiveNote (
 	note_id int NOT NULL,
 	title varchar(128) NOT NULL,
 	content varchar(512) NOT NULL,
@@ -47,13 +50,13 @@ CREATE TABLE Note (
 	is_active bit NOT NULL,
 	[version] int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
 
-	CONSTRAINT FK_NoteKey_Note FOREIGN KEY
+	CONSTRAINT FK_CurrentNote_ArchiveNoteFOREIGN KEY
 	(
 		note_id
-	) REFERENCES NoteKey
+	) REFERENCES CurrentNote
 	(
 		id
-	) ON DELETE CASCADE
+	)
 )
 GO
 --! Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=WebNotepadDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
