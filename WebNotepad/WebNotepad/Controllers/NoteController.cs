@@ -60,18 +60,18 @@ namespace webApi.Controllers
         }
 
         /// <summary>
-        /// Deletes DiscountCode
+        /// Deletes Note
         /// </summary>
-        /// <param name="id"> DiscountCode Id </param>
-        /// <returns> Delete DiscountCode </returns>
-        /// <response code="200">DiscountCode deleted</response>
+        /// <param name="id"> Note Id </param>
+        /// <returns> Delete Note </returns>
+        /// <response code="200">Note deleted</response>
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpDelete]
-        public ActionResult DeleteDiscountCode([FromQuery] int id)
+        public ActionResult DeleteNote([FromQuery] int id)
         {
-            // Mapping example
+            _noteService.DeleteNote(id);
             return Ok();
         }
 

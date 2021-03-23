@@ -41,7 +41,22 @@ namespace webApi.Services
 
         public bool DeleteNote(int? id)
         {
-            throw new NotImplementedException();
+            if (_context.NoteKeys.FirstOrDefault(noteKey => noteKey.Id == id) != null)
+            {
+                var queryResult = (from Notes in _context.Notes.Where(n => n.NoteId == id) select Notes).ToList();
+                queryResult.Sort((n1, n2) => n1.Version.CompareTo(n2.Version));
+
+                var noteDBO = _mapper.Map<NoteDBO>(queryResult.Last());
+                var note = _mapper.Map<Note>(noteDBO);
+                note.IsActive = false;
+                _context.Notes.Add(note);
+                _context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public NoteDBO GetNote(int? id)
