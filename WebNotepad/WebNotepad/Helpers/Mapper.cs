@@ -7,22 +7,28 @@ namespace webApi.Helpers
 {
     public class AutoMapperProfile : Profile
     {
-        /*
+        
         public AutoMapperProfile()
         {
-            CreateMap<NoteDBO, Note>() // example of mapping
+            CreateMap<ArchiveNote, ArchiveNoteDBO>() // example of mapping
                .ReverseMap();
-            CreateMap<Note, NoteDBO>() // example of mapping
+            CreateMap<ArchiveNoteDBO, ArchiveNote>() // example of mapping
                .ReverseMap();
 
-            CreateMap<NoteKeyDBO, NoteKey>() // example of mapping
+            CreateMap<CurrentNote, CurrentNoteDBO>() // example of mapping
                 .ReverseMap();
-
-            CreateMap<List<Note>, List<NoteDBO>>() // example of mapping
-                .ReverseMap();
-            CreateMap<List<NoteDBO>, List<Note>>() // example of mapping
-                .ReverseMap();
+            CreateMap<CurrentNoteDBO, CurrentNote>() // example of mapping
+               .ReverseMap();
+            /*
+               var mapConfig = new MapperConfiguration(
+               cfg => cfg.CreateMap<Employee, EmployeeDto>()
+                  .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Name))
+            );
+            */
+            /*
+                var mapper = mapConfig.CreateMapper();
+            */
         }
-        */
+        
     }
 }

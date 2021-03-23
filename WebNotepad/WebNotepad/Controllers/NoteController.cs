@@ -13,7 +13,6 @@ namespace webApi.Controllers
     [Route("note")]
     public class NoteController : ControllerBase
     {
-        /*
         private readonly INoteService _noteService;
 
         public NoteController(INoteService noteService)
@@ -30,14 +29,16 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<NoteDBO> GetNote([FromQuery] int? id)
+        public ActionResult<CurrentNoteDBO> GetNote([FromQuery] int? id)
         {
+            /*
             var note = _noteService.GetNote(id);
             if (note == null)
             {
                 return NotFound("Resource not Found");
             }
-            return Ok(note);
+            */
+            return Ok();
         }
 
         /// <summary>
@@ -48,15 +49,16 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         [HttpPost]
-        public ActionResult CreateNote([FromBody] NoteDBO newNote)
+        public ActionResult CreateNote([FromBody] CurrentNoteDBO newNote)
         {
+            /*
             if (newNote == null)
             {
                 return BadRequest("Bad Request");
             }
 
             _noteService.CreateNote(newNote);
-
+            */
             return Ok();
         }
 
@@ -72,7 +74,7 @@ namespace webApi.Controllers
         [HttpDelete]
         public ActionResult DeleteNote([FromQuery] int id)
         {
-            _noteService.DeleteNote(id);
+            // _noteService.DeleteNote(id);
             return Ok();
         }
 
@@ -84,10 +86,10 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        public ActionResult<IEnumerable<NoteDBO>> GetAllNotes()
+        public ActionResult<IEnumerable<CurrentNoteDBO>> GetAllNotes()
         {
-            return Ok(_noteService.GetAllNotes());
+            return Ok();
         }
-        */
+        
     }
 }

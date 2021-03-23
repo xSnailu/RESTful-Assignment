@@ -5,13 +5,14 @@ using System.Collections.Generic;
 
 namespace WebNotepad.Models
 {
-    public partial class NoteDBO
+    public partial class ArchiveNoteDBO
     {
-        public int? NoteId { get; set; }
+        public int NoteId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime? Created { get; set; }
         public DateTime? Modified { get; set; }
         public bool IsActive { get; set; }
+        public int Version { get; set; }
     }
 }
