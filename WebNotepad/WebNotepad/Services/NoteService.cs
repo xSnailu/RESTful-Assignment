@@ -46,9 +46,9 @@ namespace webApi.Services
                 _context.SaveChanges();
                 _context.CurrentNotes.Remove(noteToDelete);
                 _context.SaveChanges();
-            }
 
-            throw new NotImplementedException();
+                return true;
+            }
         }
 
         public int UpdateNote(int id)
@@ -58,7 +58,18 @@ namespace webApi.Services
 
         public IEnumerable<CurrentNoteDBO> GetAllNotes()
         {
-            throw new NotImplementedException();
+            var queryResult = (from Notes in _context.CurrentNotes select Notes).ToList();
+            queryResult.Sort((n1, n2) => n1.Id.CompareTo(n2.Id));
+
+            // mapping whole list does not work
+            // <TODO> repair it 
+            // mapper 
+            List<CurrentNoteDBO> retList = new List<CurrentNoteDBO>();
+            foreach (var note in queryResult)
+            {
+                retList.Add(_mapper.Map<CurrentNoteDBO>(note));
+            }
+            return retList;
         }
 
         /*
