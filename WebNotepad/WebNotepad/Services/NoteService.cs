@@ -21,7 +21,7 @@ namespace webApi.Services
         {
             if(noteDBO.NoteId == null)
             {
-                var newNoteKey = new NoteKey();
+                var newNoteKey = _mapper.Map<NoteKey>(new NoteKeyDBO());
                 _context.NoteKeys.Add(newNoteKey);
                 _context.SaveChanges();
                 noteDBO.NoteId = newNoteKey.Id;
@@ -48,7 +48,7 @@ namespace webApi.Services
         {
             if(_context.NoteKeys.FirstOrDefault(noteKey => noteKey.Id == id) != null)
             {
-                var queryResult = (from Notes in _context.Notes.Where(v => v.NoteId == id) select Notes).ToList();
+                var queryResult = (from Notes in _context.Notes.Where(n => n.NoteId == id) select Notes).ToList();
                 queryResult.Sort((n1, n2) => n1.Version.CompareTo(n2.Version));
 
                 if (queryResult.Last().IsActive)

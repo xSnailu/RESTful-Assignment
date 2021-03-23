@@ -14,6 +14,9 @@ namespace webApi.Helpers
             CreateMap<Note, NoteDBO>() // example of mapping
                .ReverseMap();
 
+            CreateMap<NoteKeyDBO, NoteKey>() // example of mapping
+                .ReverseMap();
+
 
         }
     }
