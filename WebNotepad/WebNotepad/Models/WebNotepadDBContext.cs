@@ -36,7 +36,7 @@ namespace WebNotepad.Models
             modelBuilder.Entity<ArchiveNote>(entity =>
             {
                 entity.HasKey(e => e.Version)
-                    .HasName("PK__ArchiveN__79B5C94C582CF61A");
+                    .HasName("PK__ArchiveN__79B5C94CF93A6593");
 
                 entity.ToTable("ArchiveNote");
 
@@ -65,12 +65,6 @@ namespace WebNotepad.Models
                     .HasMaxLength(128)
                     .IsUnicode(false)
                     .HasColumnName("title");
-
-                entity.HasOne(d => d.Note)
-                    .WithMany(p => p.ArchiveNotes)
-                    .HasForeignKey(d => d.NoteId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CurrentNote_ArchiveNote");
             });
 
             modelBuilder.Entity<CurrentNote>(entity =>

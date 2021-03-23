@@ -19,16 +19,20 @@ namespace webApi.Helpers
                 .ReverseMap();
             CreateMap<CurrentNoteDBO, CurrentNote>() // example of mapping
                .ReverseMap();
+
+            CreateMap<CurrentNote, ArchiveNote>()
+                    .ForMember(dest => dest.NoteId, a => a.MapFrom(src => src.Id)).ReverseMap();
+
             /*
-               var mapConfig = new MapperConfiguration(
-               cfg => cfg.CreateMap<Employee, EmployeeDto>()
-                  .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Name))
+               CreateMap<SourceData, DestData>()
+   .ForMember(dest => dest.DestName, a => a.MapFrom(src => src.SourceName))
+   .ForMember(dest => dest.Code, a => a.MapFrom(src => src.SourceCode))
             );
             */
             /*
-                var mapper = mapConfig.CreateMapper();
+
             */
         }
-        
+
     }
 }

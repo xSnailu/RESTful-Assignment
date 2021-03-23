@@ -49,14 +49,6 @@ CREATE TABLE ArchiveNote (
 	modified datetime,
 	is_active bit NOT NULL,
 	[version] int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
-
-	CONSTRAINT FK_CurrentNote_ArchiveNote FOREIGN KEY
-	(
-		note_id
-	) REFERENCES CurrentNote
-	(
-		id
-	)
 )
 GO
 --! Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=WebNotepadDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force

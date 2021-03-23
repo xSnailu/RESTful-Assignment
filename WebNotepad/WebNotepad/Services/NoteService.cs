@@ -25,7 +25,7 @@ namespace webApi.Services
 
         public int CreateNote(CurrentNoteDBO note)
         {
-            var newNote = _mapper.Map<CurrentNote>(new CurrentNoteDBO());
+            var newNote = _mapper.Map<CurrentNote>(note);
             _context.CurrentNotes.Add(newNote);
             _context.SaveChanges();
             return newNote.Id = newNote.Id;
@@ -33,6 +33,21 @@ namespace webApi.Services
 
         public bool DeleteNote(int id)
         {
+            var noteToDelete = _context.CurrentNotes.FirstOrDefault(note => note.Id == id);
+            if(noteToDelete == null)
+            {
+                return false;
+            }else
+            {
+                var NoteToArchive = _mapper.Map<ArchiveNote>(noteToDelete);
+                // <TODO> delete time as "modified" property
+                NoteToArchive.IsActive = false;
+                _context.ArchiveNotes.Add(NoteToArchive);
+                _context.SaveChanges();
+                _context.CurrentNotes.Remove(noteToDelete);
+                _context.SaveChanges();
+            }
+
             throw new NotImplementedException();
         }
 

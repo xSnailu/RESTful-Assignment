@@ -74,7 +74,7 @@ namespace webApi.Controllers
         [HttpDelete]
         public ActionResult DeleteNote([FromQuery] int id)
         {
-            // _noteService.DeleteNote(id);
+            _noteService.DeleteNote(id);
             return Ok();
         }
 

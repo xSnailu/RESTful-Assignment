@@ -14,7 +14,5 @@ namespace WebNotepad.Models
         public DateTime? Modified { get; set; }
         public bool IsActive { get; set; }
         public int Version { get; set; }
-
-        public virtual CurrentNote Note { get; set; }
     }
 }
