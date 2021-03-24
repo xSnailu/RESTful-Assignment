@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -28,6 +29,7 @@ namespace webApi.Controllers
         /// <response code="200">Return Note details</response>
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
+        [EnableCors]
         [HttpGet]
         public ActionResult<CurrentNoteDBO> GetNote([FromQuery] int? id)
         {
@@ -50,6 +52,7 @@ namespace webApi.Controllers
         /// <response code="200">Note successfully added</response>
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
+        [EnableCors]
         [HttpPost]
         public ActionResult CreateNote([FromBody] CurrentNoteDBO newNote)
         {
@@ -71,6 +74,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
+        [EnableCors]
         [HttpDelete]
         public ActionResult DeleteNote([FromQuery] int id)
         {
@@ -85,6 +89,7 @@ namespace webApi.Controllers
         /// <response code="200">Returns all DiscountCodes </response>
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
+        [EnableCors]
         [HttpGet("all")]
         public ActionResult<IEnumerable<CurrentNoteDBO>> GetAllNotes()
         {
