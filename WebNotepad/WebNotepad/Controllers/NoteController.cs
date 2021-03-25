@@ -38,7 +38,7 @@ namespace webApi.Controllers
             var note = _noteService.GetNote(id.Value);
             if (note == null)
             {
-                return NotFound("Resource not Found");
+                return NotFound();
             }
             return Ok(note);
         }
@@ -49,7 +49,6 @@ namespace webApi.Controllers
         /// <returns> Create New Note</returns>
         /// <response code="200">Note successfully added</response>
         /// <response code="400">Bad Request</response> 
-        /// <response code="401">UnAuthorised</response>
         [HttpPost]
         public ActionResult CreateNote([FromBody] CurrentNoteDTO newNote)
         {
@@ -69,7 +68,6 @@ namespace webApi.Controllers
         /// <returns> Delete Note </returns>
         /// <response code="200">Note deleted</response>
         /// <response code="400">Bad Request</response> 
-        /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpDelete]
         public ActionResult DeleteNote([FromQuery] int id)
@@ -84,12 +82,34 @@ namespace webApi.Controllers
         /// <returns> Returns All DiscountCodes </returns>
         /// <response code="200">Returns all DiscountCodes </response>
         /// <response code="400">Bad Request</response> 
-        /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
         public ActionResult<IEnumerable<CurrentNoteDTO>> GetAllNotes()
         {
             return Ok(_noteService.GetAllNotes());
         }
-        
+
+        /// <summary>
+        /// Update Note
+        /// </summary>
+        /// <param name="id"> Update Id </param>
+        /// <returns> Update Note </returns>
+        /// <response code="200">Note udpated</response>
+        /// <response code="400">Bad Request</response> 
+        /// <response code="404">Resource Not Found</response> 
+        [HttpPatch]
+        public ActionResult UpdateNote([FromBody] CurrentNoteDTO patchNote)
+        {
+            if(patchNote == null)
+            {
+                return BadRequest();
+            }
+            if(_noteService.UpdateNote(patchNote))
+            {
+                return Ok();
+            }else
+            {
+                return NotFound();
+            }
+        }
     }
 }

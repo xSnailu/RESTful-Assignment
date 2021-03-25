@@ -25,6 +25,17 @@ namespace webApi.Services
 
         public int CreateNote(CurrentNoteDTO note)
         {
+
+            if(note.Created == null)
+            {
+                note.Created = DateTime.Now;
+            }
+
+            if(note.Modified == null)
+            {
+                note.Modified = DateTime.Now;
+            }
+
             var newNote = _mapper.Map<CurrentNote>(note);
             _context.CurrentNotes.Add(newNote);
             _context.SaveChanges();
@@ -42,6 +53,7 @@ namespace webApi.Services
                 var NoteToArchive = _mapper.Map<ArchiveNote>(noteToDelete);
                 // <TODO> delete time as "modified" property
                 NoteToArchive.IsActive = false;
+                NoteToArchive.Modified = DateTime.Now;
                 _context.ArchiveNotes.Add(NoteToArchive);
                 _context.SaveChanges();
                 _context.CurrentNotes.Remove(noteToDelete);
@@ -51,9 +63,20 @@ namespace webApi.Services
             }
         }
 
-        public int UpdateNote(int id)
+        public bool UpdateNote(CurrentNoteDTO note)
         {
-            throw new NotImplementedException();
+            var notefromDB = _context.CurrentNotes.FirstOrDefault(x => x.Id == note.Id);
+            if (notefromDB == null)
+            {
+                return false;
+            }
+            note.IsActive = true;
+            note.Created = notefromDB.Created;
+            note.Modified = DateTime.Now;
+            _context.Entry(notefromDB).CurrentValues.SetValues(_mapper.Map<CurrentNote>(note));
+            _context.SaveChanges();
+            return true;
+            
         }
 
         public IEnumerable<CurrentNoteDTO> GetAllNotes()
@@ -62,7 +85,7 @@ namespace webApi.Services
             queryResult.Sort((n1, n2) => n1.Id.CompareTo(n2.Id));
 
             // mapping whole list does not work
-            // <TODO> repair it 
+            // <TODO> change it 
             // mapper 
             List<CurrentNoteDTO> retList = new List<CurrentNoteDTO>();
             foreach (var note in queryResult)
@@ -71,96 +94,6 @@ namespace webApi.Services
             }
             return retList;
         }
-
-        /*
-        public int CreateNote(NoteDBO noteDBO)
-        {
-            if(noteDBO.NoteId == null)
-            {
-                var newNoteKey = _mapper.Map<NoteKey>(new NoteKeyDBO());
-                _context.NoteKeys.Add(newNoteKey);
-                _context.SaveChanges();
-                noteDBO.NoteId = newNoteKey.Id;
-
-                var note = _mapper.Map<Note>(noteDBO);
-                _context.Notes.Add(note);
-                _context.SaveChanges();
-                return note.NoteId;
-            }else
-            {
-                var note = _mapper.Map<Note>(noteDBO);
-                _context.Notes.Add(note);
-                _context.SaveChanges();
-                return note.NoteId;
-            }
-        }
-
-        public bool DeleteNote(int? id)
-        {
-            if (_context.NoteKeys.FirstOrDefault(noteKey => noteKey.Id == id) != null)
-            {
-                var queryResult = (from Notes in _context.Notes.Where(n => n.NoteId == id) select Notes).ToList();
-                queryResult.Sort((n1, n2) => n1.Version.CompareTo(n2.Version));
-
-                var noteDBO = _mapper.Map<NoteDBO>(queryResult.Last());
-                var note = _mapper.Map<Note>(noteDBO);
-                note.IsActive = false;
-                _context.Notes.Add(note);
-                _context.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public NoteDBO GetNote(int? id)
-        {
-            if(_context.NoteKeys.FirstOrDefault(noteKey => noteKey.Id == id) != null)
-            {
-                var queryResult = (from Notes in _context.Notes.Where(n => n.NoteId == id) select Notes).ToList();
-                queryResult.Sort((n1, n2) => n1.Version.CompareTo(n2.Version));
-
-                if (queryResult.Last().IsActive)
-                {
-                    return _mapper.Map<NoteDBO>(queryResult.Last());
-                }
-                else
-                    return null;
-            }
-            else
-            {
-                return null;
-            } 
-        }
-
-        public IEnumerable<NoteDBO> GetAllNotes()
-        {
-            var allNotes = (from x in _context.Notes
-                           group x by x.NoteId into g
-                              select g.OrderByDescending(y => y.Version).FirstOrDefault()).ToList();
-
-            allNotes.RemoveAll(note => !note.IsActive);
-
-            List<NoteDBO> retList = new List<NoteDBO>();
-
-            // mapping whole list does not work
-            // <TODO> 
-            foreach(var note in allNotes)
-            {
-                retList.Add(_mapper.Map<NoteDBO>(note));
-            }
-
-            return retList;
-        }
-
-        public int UpdateNote(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        */
     }
 
 }

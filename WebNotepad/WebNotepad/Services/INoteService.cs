@@ -8,7 +8,7 @@ namespace webApi.Services
         public CurrentNote GetNote(int id);
         int CreateNote(CurrentNoteDTO note);
         bool DeleteNote(int id);
-        int UpdateNote(int id);
+        bool UpdateNote(CurrentNoteDTO note);
         public IEnumerable<CurrentNoteDTO> GetAllNotes();
     }
 }
