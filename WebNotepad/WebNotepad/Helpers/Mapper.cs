@@ -17,7 +17,7 @@ namespace webApi.Helpers
                     .ForMember(dest => dest.NoteId, a => a.MapFrom(src => src.Id)).ReverseMap();
 
             CreateMap<CurrentNoteDTO, ArchiveNote>()
-                    .ForMember(dest => dest.NoteId, a => a.MapFrom(src => src.Id));
+                    .ForMember(dest => dest.NoteId, a => a.MapFrom(src => src.Id)).ReverseMap();
 
                     /*
                        CreateMap<SourceData, DestData>()

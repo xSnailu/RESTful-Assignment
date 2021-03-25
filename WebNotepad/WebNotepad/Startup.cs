@@ -42,6 +42,7 @@ namespace WebNotepad
 
             // Dependency injection
             services.AddScoped<INoteService, NoteService>();
+            services.AddScoped<IArchiveNoteService, ArchiveNoteService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<WebNotepadDBContext>(options => options.UseSqlServer(connection)); // database
         }

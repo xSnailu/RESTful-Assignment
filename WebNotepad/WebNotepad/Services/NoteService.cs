@@ -20,12 +20,11 @@ namespace webApi.Services
 
         public CurrentNote GetNote(int id)
         {
-            return _context.CurrentNotes.FirstOrDefault(note => note.Id == id);
+            return _context.CurrentNotes.FirstOrDefault(note => note.Id == id && note.IsActive);
         }
 
         public int CreateNote(CurrentNoteDTO note)
         {
-
             if(note.Created == null)
             {
                 note.Created = DateTime.Now;
@@ -51,12 +50,11 @@ namespace webApi.Services
             }else
             {
                 var NoteToArchive = _mapper.Map<ArchiveNote>(noteToDelete);
-                // <TODO> delete time as "modified" property
-                NoteToArchive.IsActive = false;
-                NoteToArchive.Modified = DateTime.Now;
                 _context.ArchiveNotes.Add(NoteToArchive);
                 _context.SaveChanges();
-                _context.CurrentNotes.Remove(noteToDelete);
+
+                _context.Entry(noteToDelete).Property(x => x.IsActive).CurrentValue = false;
+                _context.Entry(noteToDelete).Property(x => x.Modified).CurrentValue = DateTime.Now;
                 _context.SaveChanges();
 
                 return true;
@@ -65,24 +63,24 @@ namespace webApi.Services
 
         public bool UpdateNote(CurrentNoteDTO note)
         {
-            var notefromDB = _context.CurrentNotes.FirstOrDefault(x => x.Id == note.Id);
+            var notefromDB = _context.CurrentNotes.FirstOrDefault(x => x.Id == note.Id && x.IsActive);
             if (notefromDB == null)
             {
                 return false;
             }
+            _context.ArchiveNotes.Add(_mapper.Map<ArchiveNote>(notefromDB));
             note.IsActive = true;
             note.Created = notefromDB.Created;
             note.Modified = DateTime.Now;
             _context.Entry(notefromDB).CurrentValues.SetValues(_mapper.Map<CurrentNote>(note));
             _context.SaveChanges();
-            return true;
-            
+            return true;    
         }
 
         public IEnumerable<CurrentNoteDTO> GetAllNotes()
         {
-            var queryResult = (from Notes in _context.CurrentNotes select Notes).ToList();
-            queryResult.Sort((n1, n2) => n1.Id.CompareTo(n2.Id));
+            var queryResult = (from Notes in _context.CurrentNotes select Notes).Where(x => x.IsActive == true).OrderBy(x => x.Id).ToList();
+            //queryResult.Sort((n1, n2) => n1.Id.CompareTo(n2.Id));
 
             // mapping whole list does not work
             // <TODO> change it 

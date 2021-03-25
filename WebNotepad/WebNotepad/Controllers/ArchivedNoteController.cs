@@ -14,86 +14,35 @@ namespace webApi.Controllers
     [Route("archivednote")]
     public class ArchivedNoteController : ControllerBase
     {
-        private readonly INoteService _noteService;
+        private readonly IArchiveNoteService _archivedNoteService;
 
-        public ArchivedNoteController(INoteService noteService)
+        public ArchivedNoteController(IArchiveNoteService archivedNoteService)
         {
-            _noteService = noteService;
+            _archivedNoteService = archivedNoteService;
         }
 
         /// <summary>
-        /// Returns Note Details
+        /// Returns Note History 
         /// </summary>
         /// <param name="id"> Note Id </param>
-        /// <returns> Returns Note Details </returns>
-        /// <response code="200">Return Note details</response>
+        /// <returns> Returns Note History </returns>
+        /// <response code="200">Return Note History</response>
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [EnableCors]
         [HttpGet]
-        public ActionResult<CurrentNoteDTO> GetNote([FromQuery] int? id)
+        public ActionResult<IEnumerable<CurrentNoteDTO>> GetHistoryOfNote([FromQuery] int? id)
         {
             if(id == null)
             {
                 return BadRequest();
             }
-            var note = _noteService.GetNote(id.Value);
-            if (note == null)
+            var history = _archivedNoteService.GetHistoryOfNoteById(id.Value);
+            if (!history.Any())
             {
-                return NotFound("Resource not Found");
+                return NotFound();
             }
-            return Ok(note);
-        }
-
-        /// <summary>
-        /// Creates New Note
-        /// </summary>
-        /// <returns> Create New Note</returns>
-        /// <response code="200">Note successfully added</response>
-        /// <response code="400">Bad Request</response> 
-        /// <response code="401">UnAuthorised</response>
-        [EnableCors]
-        [HttpPost]
-        public ActionResult CreateNote([FromBody] CurrentNoteDTO newNote)
-        {
-            if (newNote == null)
-            {
-                return BadRequest("Bad Request");
-            }
-            _noteService.CreateNote(newNote);
-
-            return Ok();
-        }
-
-        /// <summary>
-        /// Deletes Note
-        /// </summary>
-        /// <param name="id"> Note Id </param>
-        /// <returns> Delete Note </returns>
-        /// <response code="200">Note deleted</response>
-        /// <response code="400">Bad Request</response> 
-        /// <response code="401">UnAuthorised</response>
-        /// <response code="404">Resource Not Found</response> 
-        [EnableCors]
-        [HttpDelete]
-        public ActionResult DeleteNote([FromQuery] int id)
-        {
-            _noteService.DeleteNote(id);
-            return Ok();
-        }
-
-        /// <summary>
-        /// Returns All DiscountCodes
-        /// </summary>
-        /// <returns> Returns All DiscountCodes </returns>
-        /// <response code="200">Returns all DiscountCodes </response>
-        /// <response code="400">Bad Request</response> 
-        /// <response code="401">UnAuthorised</response> 
-        [EnableCors]
-        [HttpGet("all")]
-        public ActionResult<IEnumerable<CurrentNoteDTO>> GetAllNotes()
-        {
-            return Ok(_noteService.GetAllNotes());
+            return Ok(history);
         }
         
     }
