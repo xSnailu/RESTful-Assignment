@@ -52,7 +52,7 @@ namespace webApi.Controllers
         [HttpPost]
         public ActionResult CreateNote([FromBody] CurrentNoteDTO newNote)
         {
-            if (newNote == null)
+            if (!ModelState.IsValid)
             {
                 return BadRequest("Bad Request");
             }
@@ -99,11 +99,12 @@ namespace webApi.Controllers
         [HttpPatch]
         public ActionResult UpdateNote([FromBody] CurrentNoteDTO patchNote)
         {
-            if(patchNote == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Bad Request");
             }
-            if(_noteService.UpdateNote(patchNote))
+
+            if (_noteService.UpdateNote(patchNote))
             {
                 return Ok();
             }else
