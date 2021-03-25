@@ -31,7 +31,7 @@ namespace webApi.Controllers
         /// <response code="404">Resource Not Found</response> 
         [EnableCors]
         [HttpGet]
-        public ActionResult<CurrentNoteDBO> GetNote([FromQuery] int? id)
+        public ActionResult<CurrentNoteDTO> GetNote([FromQuery] int? id)
         {
             if(id == null)
             {
@@ -54,7 +54,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response>
         [EnableCors]
         [HttpPost]
-        public ActionResult CreateNote([FromBody] CurrentNoteDBO newNote)
+        public ActionResult CreateNote([FromBody] CurrentNoteDTO newNote)
         {
             if (newNote == null)
             {
@@ -91,7 +91,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response> 
         [EnableCors]
         [HttpGet("all")]
-        public ActionResult<IEnumerable<CurrentNoteDBO>> GetAllNotes()
+        public ActionResult<IEnumerable<CurrentNoteDTO>> GetAllNotes()
         {
             return Ok(_noteService.GetAllNotes());
         }

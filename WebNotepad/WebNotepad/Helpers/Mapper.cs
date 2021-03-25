@@ -10,13 +10,13 @@ namespace webApi.Helpers
         
         public AutoMapperProfile()
         {
-            CreateMap<CurrentNote, CurrentNoteDBO>() 
+            CreateMap<CurrentNote, CurrentNoteDTO>() 
                 .ReverseMap();
 
             CreateMap<CurrentNote, ArchiveNote>()
                     .ForMember(dest => dest.NoteId, a => a.MapFrom(src => src.Id)).ReverseMap();
 
-            CreateMap<CurrentNoteDBO, ArchiveNote>()
+            CreateMap<CurrentNoteDTO, ArchiveNote>()
                     .ForMember(dest => dest.NoteId, a => a.MapFrom(src => src.Id));
 
                     /*

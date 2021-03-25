@@ -23,7 +23,7 @@ namespace webApi.Services
             return _context.CurrentNotes.FirstOrDefault(note => note.Id == id);
         }
 
-        public int CreateNote(CurrentNoteDBO note)
+        public int CreateNote(CurrentNoteDTO note)
         {
             var newNote = _mapper.Map<CurrentNote>(note);
             _context.CurrentNotes.Add(newNote);
@@ -56,7 +56,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CurrentNoteDBO> GetAllNotes()
+        public IEnumerable<CurrentNoteDTO> GetAllNotes()
         {
             var queryResult = (from Notes in _context.CurrentNotes select Notes).ToList();
             queryResult.Sort((n1, n2) => n1.Id.CompareTo(n2.Id));
@@ -64,10 +64,10 @@ namespace webApi.Services
             // mapping whole list does not work
             // <TODO> repair it 
             // mapper 
-            List<CurrentNoteDBO> retList = new List<CurrentNoteDBO>();
+            List<CurrentNoteDTO> retList = new List<CurrentNoteDTO>();
             foreach (var note in queryResult)
             {
-                retList.Add(_mapper.Map<CurrentNoteDBO>(note));
+                retList.Add(_mapper.Map<CurrentNoteDTO>(note));
             }
             return retList;
         }

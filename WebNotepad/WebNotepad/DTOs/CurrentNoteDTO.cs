@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WebNotepad.Models
 {
-    public partial class CurrentNoteDBO
+    public partial class CurrentNoteDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }
