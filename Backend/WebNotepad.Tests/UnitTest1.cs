@@ -1,6 +1,9 @@
+using AutoMapper.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using WebNotepad.Models;
 
 namespace WebNotepad.Tests
@@ -9,7 +12,7 @@ namespace WebNotepad.Tests
     public class UnitTest1
     {
         [ClassInitialize]
-        public static void CreateDB(TestContext testContext)
+        public static void CreateDataBase(TestContext testContext)
         {
             var options = new DbContextOptionsBuilder<WebNotepadDBContext>()
                .UseInMemoryDatabase(databaseName: "WebNotepadDB")
@@ -21,5 +24,12 @@ namespace WebNotepad.Tests
             context.ArchiveNotes.Add(new ArchiveNote { NoteId = 3, Title = "Tytul3", Content = "Content3", Created = DateTime.MinValue, Modified = DateTime.MinValue, IsActive = true });
             context.SaveChanges();
         }
+
+        [TestMethod]
+        public void GetAllNotes()
+        {
+
+        }
+
     }
 }
