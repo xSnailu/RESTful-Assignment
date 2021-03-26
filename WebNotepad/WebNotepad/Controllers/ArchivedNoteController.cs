@@ -30,7 +30,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [EnableCors]
-        [HttpGet]
+        [HttpGet("noteHistoryById")]
         public ActionResult<IEnumerable<CurrentNoteDTO>> GetHistoryOfNote([FromQuery] int? id)
         {
             if(id == null)
@@ -44,6 +44,5 @@ namespace webApi.Controllers
             }
             return Ok(history);
         }
-        
     }
 }

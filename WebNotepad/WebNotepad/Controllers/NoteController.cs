@@ -70,17 +70,28 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpDelete]
-        public ActionResult DeleteNote([FromQuery] int id)
+        public ActionResult DeleteNote([FromQuery] int? id)
         {
-            _noteService.DeleteNote(id);
-            return Ok();
+            if(id == null)
+            {
+                return BadRequest();
+            }
+
+            if (!_noteService.DeleteNote(id.Value))
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok();
+            }
         }
 
         /// <summary>
-        /// Returns All DiscountCodes
+        /// Returns All Notes
         /// </summary>
-        /// <returns> Returns All DiscountCodes </returns>
-        /// <response code="200">Returns all DiscountCodes </response>
+        /// <returns> Returns All Notes </returns>
+        /// <response code="200">Returns all Notes </response>
         /// <response code="400">Bad Request</response> 
         [HttpGet("all")]
         public ActionResult<IEnumerable<CurrentNoteDTO>> GetAllNotes()
@@ -93,7 +104,7 @@ namespace webApi.Controllers
         /// </summary>
         /// <param name="id"> Update Id </param>
         /// <returns> Update Note </returns>
-        /// <response code="200">Note udpated</response>
+        /// <response code="200">Note updated</response>
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpPatch]

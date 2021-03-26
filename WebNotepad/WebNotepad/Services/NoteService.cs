@@ -80,11 +80,7 @@ namespace webApi.Services
         public IEnumerable<CurrentNoteDTO> GetAllNotes()
         {
             var queryResult = (from Notes in _context.CurrentNotes select Notes).Where(x => x.IsActive == true).OrderBy(x => x.Id).ToList();
-            //queryResult.Sort((n1, n2) => n1.Id.CompareTo(n2.Id));
 
-            // mapping whole list does not work
-            // <TODO> change it 
-            // mapper 
             List<CurrentNoteDTO> retList = new List<CurrentNoteDTO>();
             foreach (var note in queryResult)
             {
