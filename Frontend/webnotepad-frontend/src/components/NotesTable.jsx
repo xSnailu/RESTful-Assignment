@@ -218,7 +218,6 @@ function NotesTable(props) {
     },
   }));
 
-
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -254,10 +253,6 @@ function NotesTable(props) {
     fetch('https://localhost:44398/note?id=' + id)
       .then(response => response.json())
       .then(data => console.log(data));
-
-
-
-
   };
 
   function MyModal(props) {

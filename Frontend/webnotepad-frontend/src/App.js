@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import NotesTable from './NotesTable';
+import NotesTable from './components/NotesTable';
 
 
 function App() {
