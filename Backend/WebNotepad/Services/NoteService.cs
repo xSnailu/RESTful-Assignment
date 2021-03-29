@@ -38,7 +38,7 @@ namespace webApi.Services
             var newNote = _mapper.Map<CurrentNote>(note);
             _context.CurrentNotes.Add(newNote);
             _context.SaveChanges();
-            return newNote.Id = newNote.Id;
+            return newNote.Id;
         }
 
         public bool DeleteNote(int id)
